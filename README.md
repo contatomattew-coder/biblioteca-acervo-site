@@ -1,21 +1,23 @@
-# Biblioteca Acervo Site
+# Arquivo Privado VSCO
 
-Site estático publicado no GitHub Pages.
+App estático no GitHub Pages usando Firebase Authentication + Firestore.
 
-## Acesso
+## Antes de usar
 
-O site tem uma trava básica de login via JavaScript. Ela é simples e serve apenas para evitar acesso casual.
+1. No Firebase Console, ative Authentication > Email/senha.
+2. Crie dois usuários autorizados.
+3. Crie o Firestore Database em modo produção.
+4. Em Authentication > Settings > Authorized domains, adicione:
+   - contatomattew-coder.github.io
+5. Cole as regras de FIRESTORE_RULES.md em Firestore Database > Rules.
 
-## Como subir mais arquivos
+## O que o app faz
 
-1. Abra o release `v1-media`.
-2. Clique em editar release.
-3. Anexe novos vídeos ou imagens em Assets.
-4. Salve.
-5. Abra o site e clique em “Atualizar acervo”.
+- Login real pelo Firebase Auth.
+- Registros privados no Firestore.
+- Abas para acervo, seguidores/conexões autorizados, biblioteca, rotina ampla, notas, favoritos, editar depois e revisados.
+- Importação CSV manual/autorizada.
 
-Arquivos recomendados:
-- Vídeos: `.mp4`, `.mov`, `.webm`, `.m4v`
-- Imagens: `.jpg`, `.png`, `.webp`, `.gif`
+## Limite de segurança
 
-O site puxa os assets do GitHub Release automaticamente.
+Não use para endereço exato, rota, localização em tempo real, escola/sala específica ou monitoramento de terceiros. Use rotina ampla e dados com autorização.
