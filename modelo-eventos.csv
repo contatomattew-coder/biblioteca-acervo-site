@@ -1,0 +1,2 @@
+title,type,category,eventName,date,time,period,weekday,locationGeneral,city,areaGeneral,placeType,context,source,evidence,confidence,relatedPhotos,relatedVideos,url,tags,description,status,priority
+Evento 01,rotina,evento,Nome do evento,2026-01-01,,noite,quinta,Local geral sem endereço,Cidade,bairro amplo,eventos,Contexto seguro,manual,conversa/foto,media,VSCO Post 01,,https://...,evento;amigos,observação geral,novo,media
