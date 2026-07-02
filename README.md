@@ -1,5 +1,12 @@
+# Arquivo Privado VSCO
 
+Painel reorganizado em áreas:
 
-## Importar dados antigos
+- Acervo visual
+- Biblioteca de livros/manhwas
+- Conexões autorizadas
+- Eventos e local geral
+- Todos os registros
+- Importador separado
 
-Na aba Importar, use “Importar legado do site antigo” e selecione o HTML antigo. O navegador extrai `archiveData` localmente e grava as fotos/dados no Firestore depois do login. O botão “Importar vídeos do Release” busca os assets do release `v1-media` e cria registros privados no Firestore.
+Use `importar.html` para importar os CSVs e o HTML antigo. Conexões/seguidores devem ser adicionados manualmente ou por arquivo autorizado, sem scraping automático.
