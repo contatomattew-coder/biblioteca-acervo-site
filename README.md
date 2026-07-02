@@ -1,9 +1,21 @@
 # Biblioteca Acervo Site
 
-Site estático com biblioteca e vídeos integrados via GitHub Release.
+Site estático publicado no GitHub Pages.
 
-- `index.html` fica no GitHub Pages.
-- Os vídeos ficam no Release `v1-media` para evitar arquivos gigantes no repositório.
-- Os cards não mostram data de adição.
-- Conteúdo publicado conforme autorização informada pelo responsável.
+## Acesso
 
+O site tem uma trava básica de login via JavaScript. Ela é simples e serve apenas para evitar acesso casual.
+
+## Como subir mais arquivos
+
+1. Abra o release `v1-media`.
+2. Clique em editar release.
+3. Anexe novos vídeos ou imagens em Assets.
+4. Salve.
+5. Abra o site e clique em “Atualizar acervo”.
+
+Arquivos recomendados:
+- Vídeos: `.mp4`, `.mov`, `.webm`, `.m4v`
+- Imagens: `.jpg`, `.png`, `.webp`, `.gif`
+
+O site puxa os assets do GitHub Release automaticamente.
