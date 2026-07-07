@@ -192,6 +192,42 @@ const dossierOldBindActions=bindActions;bindActions=function(){dossierOldBindAct
 document.addEventListener('click',e=>{const s=e.target.closest('.sensitive');if(!s||!document.body.classList.contains('privacyOn'))return;s.classList.add('revealPeek');setTimeout(()=>s.classList.remove('revealPeek'),1800)})
 function applyTypewriter(){const h=document.querySelector('.heroMain h1');if(h&&!h.classList.contains('typewriter'))h.classList.add('typewriter')}
 const dossierOldRender=render;render=function(){dossierOldRender();applyReveal();animateStats();applyTypewriter()}
+
+// --- NOTAS / RELATORIOS LOGIC ---
+const notaTexto = document.getElementById('notaTexto');
+const btnSalvarNota = document.getElementById('btnSalvarNota');
+const notaStatus = document.getElementById('notaStatus');
+
+if (notaTexto && btnSalvarNota) {
+    // Load existing note on start
+    onSnapshot(doc(db, "sistema", "rascunho_relatorio"), (docSnap) => {
+        if (docSnap.exists() && document.activeElement !== notaTexto) {
+            notaTexto.value = docSnap.data().texto || "";
+        }
+    });
+
+    btnSalvarNota.addEventListener('click', async () => {
+        try {
+            btnSalvarNota.innerText = '[ ENVIANDO... ]';
+            await setDoc(doc(db, "sistema", "rascunho_relatorio"), {
+                texto: notaTexto.value,
+                updatedAt: serverTimestamp()
+            }, { merge: true });
+            
+            btnSalvarNota.innerText = '[ EXECUTAR SALVAMENTO ]';
+            notaStatus.innerText = '> [ OK ] RELATORIO SALVO NO FIREBASE.';
+            notaStatus.style.display = 'block';
+            notaStatus.style.color = '#4caf50';
+            setTimeout(() => { notaStatus.style.display = 'none'; }, 4000);
+        } catch (e) {
+            console.error(e);
+            notaStatus.innerText = '> [ ERRO ] FALHA NA CONEXAO.';
+            notaStatus.style.display = 'block';
+            notaStatus.style.color = '#ff4444';
+        }
+    });
+}
+
 </script>
 
 <script>
@@ -487,40 +523,6 @@ document.addEventListener('click', e => {
     }
 });
 
-// --- NOTAS / RELATORIOS LOGIC ---
-const notaTexto = document.getElementById('notaTexto');
-const btnSalvarNota = document.getElementById('btnSalvarNota');
-const notaStatus = document.getElementById('notaStatus');
-
-if (notaTexto && btnSalvarNota) {
-    // Load existing note on start
-    onSnapshot(doc(db, "sistema", "rascunho_relatorio"), (docSnap) => {
-        if (docSnap.exists() && document.activeElement !== notaTexto) {
-            notaTexto.value = docSnap.data().texto || "";
-        }
-    });
-
-    btnSalvarNota.addEventListener('click', async () => {
-        try {
-            btnSalvarNota.innerText = '[ ENVIANDO... ]';
-            await setDoc(doc(db, "sistema", "rascunho_relatorio"), {
-                texto: notaTexto.value,
-                updatedAt: serverTimestamp()
-            }, { merge: true });
-            
-            btnSalvarNota.innerText = '[ EXECUTAR SALVAMENTO ]';
-            notaStatus.innerText = '> [ OK ] RELATORIO SALVO NO FIREBASE.';
-            notaStatus.style.display = 'block';
-            notaStatus.style.color = '#4caf50';
-            setTimeout(() => { notaStatus.style.display = 'none'; }, 4000);
-        } catch (e) {
-            console.error(e);
-            notaStatus.innerText = '> [ ERRO ] FALHA NA CONEXAO.';
-            notaStatus.style.display = 'block';
-            notaStatus.style.color = '#ff4444';
-        }
-    });
-}
 </script>
 
 </body></html>
