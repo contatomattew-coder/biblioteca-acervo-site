@@ -442,3 +442,14 @@ textarea { min-height: 100px; resize: vertical; }
   background: #fff;
   color: #000;
 }
+
+/* Fixed Timeline Thumbs */
+.timelineItem .thumb, .ropePendant .thumb {
+    height: 80px !important;
+    border-bottom: none !important;
+    border-radius: 4px;
+}
+.ropePendant .thumb {
+    width: 60px;
+    height: 60px !important;
+}
