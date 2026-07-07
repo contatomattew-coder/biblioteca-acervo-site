@@ -16,8 +16,27 @@
   <button class="pre-enter-btn" id="preEnterBtn">Acessar Acervo</button>
 </div>
 
+
+<section class="section" id="notas" style="display:none;">
+    <div class="sectionHead">
+        <div>
+            <h2>Terminal de Relatórios</h2>
+            <div class="mini">Bloco de notas integrado com salvamento direto no Firebase.</div>
+        </div>
+        <span class="chip cyan">Cloud Sync</span>
+    </div>
+    <div class="panel" style="padding: 24px; border-color: var(--text-primary);">
+        <textarea id="notaTexto" rows="18" placeholder="> INICIE A DIGITAÇÃO DO RELATÓRIO AQUI..." style="width: 100%; font-family: var(--font-mono); background: var(--bg-app); color: var(--text-primary); border: 1px solid var(--border); padding: 16px; resize: vertical; outline: none; margin-bottom: 16px;"></textarea>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="mini" id="notaStatus" style="font-family: var(--font-mono); color: #4caf50; display:none;">> [ OK ] DADOS SINCRONIZADOS COM A NUVEM.</span>
+            <button class="btn" id="btnSalvarNota" style="font-family: var(--font-mono);">[ EXECUTAR SALVAMENTO ]</button>
+        </div>
+    </div>
+</section>
+
 <div class="loginGate" id="loginGate"><form class="panel loginBox" id="loginForm"><div class="kicker">Firebase Auth</div><h1>Arquivo privado</h1><p class="muted">Entre com o e-mail e senha cadastrados no Firebase.</p><div class="control"><label>E-mail</label><input id="email" type="email" autocomplete="username" required></div><div class="control"><label>Senha</label><input id="password" type="password" autocomplete="current-password" required></div><div class="actions" style="margin-top:14px"><button class="btn" type="submit">Entrar</button><span class="mini" id="loginMsg"></span></div></form></div>
-<main class="app hidden" id="app"><header class="top"><div class="brand"><div class="logo">VS</div><div><b>Arquivo Privado VSCO</b><span id="userInfo" class="mini"></span></div></div><nav class="nav" id="nav"><button class="active" data-view="dashboard">Início</button><button data-view="acervo">Acervo</button><button data-view="biblioteca">Biblioteca</button><button data-view="conexoes">Seguidores</button><button data-view="eventos">Eventos</button><button data-view="agenda">Agenda</button><button data-view="agora">Onde estou agora</button><button data-view="timeline">Linha do tempo</button><button data-view="favoritos">Favoritos</button><button data-view="lugares">Mapa de lugares</button><button data-view="backup">Backup</button><button data-view="todos">Todos</button><button data-view="importar">Admin</button><button id="logoutBtn" class="danger">Sair</button></nav></header>
+<main class="app hidden" id="app"><header class="top"><div class="brand"><div class="logo">VS</div><div><b>Arquivo Privado VSCO</b><span id="userInfo" class="mini"></span></div></div><nav class="nav" id="nav"><button class="active" data-view="dashboard">Início</button><button data-view="acervo">Acervo</button><button data-view="biblioteca">Biblioteca</button><button data-view="conexoes">Seguidores</button><button data-view="eventos">Eventos</button><button data-view="agenda">Agenda</button><button data-view="agora">Onde estou agora</button><button data-view="timeline">Linha do tempo</button>
+<button data-view="notas">Relatórios</button><button data-view="favoritos">Favoritos</button><button data-view="lugares">Mapa de lugares</button><button data-view="backup">Backup</button><button data-view="todos">Todos</button><button data-view="importar">Admin</button><button id="logoutBtn" class="danger">Sair</button></nav></header>
 <section class="hero section active" id="dashboard"><div class="panel heroMain"><div class="kicker">painel reorganizado</div><h1>Acervo completo</h1><p>Agora o site separa as áreas que estavam misturadas: fotos/vídeos, biblioteca de livros/manhwas, conexões autorizadas e eventos/local geral.</p><div class="chips"><span class="chip cyan">Firebase privado</span><span class="chip leaf">biblioteca</span><span class="chip amber">eventos</span><span class="chip rose">conexões</span></div></div><aside class="panel heroStats"><div class="stat"><span class="label">Total</span><strong id="mTotal">0</strong></div><div class="stat"><span class="label">Acervo</span><strong id="mAcervo">0</strong></div><div class="stat"><span class="label">Biblioteca</span><strong id="mBiblioteca">0</strong></div><div class="stat"><span class="label">Conexões</span><strong id="mConexoes">0</strong></div><div class="stat"><span class="label">Eventos/Locais</span><strong id="mEventos">0</strong></div><div class="stat"><span class="label">Revisados</span><strong id="mRevisados">0</strong></div></aside><div class="panel embeddedFollowers"><div class="sectionHead"><div><h2>Seguidores no arquivo</h2><div class="mini">Atalhos compactos para os perfis adicionados/importados.</div></div><button class="btn small" data-view="conexoes">Ver todos</button></div><div class="compactFollowers" id="dashboardFollowersGrid"></div></div></section>
 <section class="section" id="acervo"><div class="sectionHead"><div><h2>Acervo visual</h2><div class="mini">Fotos e vídeos com mídia real, sem cards vazios ou duplicados.</div></div><button class="btn" data-add="acervo">Adicionar</button></div><div class="acervoTools"><div class="control"><label>Buscar no acervo</label><input id="acervoSearchInput" type="search" placeholder="buscar foto, vídeo, data, local..."></div><div class="control"><label>Mídia</label><select id="acervoMediaFilter"><option value="">Todos</option><option value="image">Imagens</option><option value="video">Vídeos</option></select></div></div><div class="panel embeddedFollowers acervoFollowerStrip"><div class="sectionHead"><div><h2>Seguidores ligados</h2><div class="mini">Perfis ficam visíveis dentro do acervo sem ocupar os cards principais.</div></div><button class="btn small" data-add="conexao">Adicionar seguidor</button></div><div class="compactFollowers" id="acervoFollowersGrid"></div></div><div class="grid" id="gridAcervo"></div></section>
 <section class="section" id="biblioteca"><div class="sectionHead"><div><h2>Biblioteca</h2><div class="mini">Livros, manhwas, leituras, categorias, prioridade e contexto.</div></div><button class="btn" data-add="biblioteca">Adicionar livro</button></div><div class="grid" id="gridBiblioteca"></div></section>
@@ -467,6 +486,41 @@ document.addEventListener('click', e => {
         setTimeout(scrambleStats, 50);
     }
 });
+
+// --- NOTAS / RELATORIOS LOGIC ---
+const notaTexto = document.getElementById('notaTexto');
+const btnSalvarNota = document.getElementById('btnSalvarNota');
+const notaStatus = document.getElementById('notaStatus');
+
+if (notaTexto && btnSalvarNota) {
+    // Load existing note on start
+    onSnapshot(doc(db, "sistema", "rascunho_relatorio"), (docSnap) => {
+        if (docSnap.exists() && document.activeElement !== notaTexto) {
+            notaTexto.value = docSnap.data().texto || "";
+        }
+    });
+
+    btnSalvarNota.addEventListener('click', async () => {
+        try {
+            btnSalvarNota.innerText = '[ ENVIANDO... ]';
+            await setDoc(doc(db, "sistema", "rascunho_relatorio"), {
+                texto: notaTexto.value,
+                updatedAt: serverTimestamp()
+            }, { merge: true });
+            
+            btnSalvarNota.innerText = '[ EXECUTAR SALVAMENTO ]';
+            notaStatus.innerText = '> [ OK ] RELATORIO SALVO NO FIREBASE.';
+            notaStatus.style.display = 'block';
+            notaStatus.style.color = '#4caf50';
+            setTimeout(() => { notaStatus.style.display = 'none'; }, 4000);
+        } catch (e) {
+            console.error(e);
+            notaStatus.innerText = '> [ ERRO ] FALHA NA CONEXAO.';
+            notaStatus.style.display = 'block';
+            notaStatus.style.color = '#ff4444';
+        }
+    });
+}
 </script>
 
 </body></html>
