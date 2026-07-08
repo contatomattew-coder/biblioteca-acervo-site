@@ -229,7 +229,7 @@ const notaStatus = document.getElementById('notaStatus');
 
 if (notaTexto && btnSalvarNota) {
     // Load existing note on start
-    onSnapshot(doc(db, "sistema", "rascunho_relatorio"), (docSnap) => {
+    onSnapshot(doc(db, "entries", "rascunho_relatorio"), (docSnap) => {
         if (docSnap.exists() && document.activeElement !== notaTexto) {
             notaTexto.value = docSnap.data().texto || "";
         }
@@ -238,7 +238,7 @@ if (notaTexto && btnSalvarNota) {
     btnSalvarNota.addEventListener('click', async () => {
         try {
             btnSalvarNota.innerText = '[ ENVIANDO... ]';
-            await setDoc(doc(db, "sistema", "rascunho_relatorio"), {
+            await setDoc(doc(db, "entries", "rascunho_relatorio"), {
                 texto: notaTexto.value,
                 updatedAt: serverTimestamp()
             }, { merge: true });
