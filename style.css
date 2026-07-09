@@ -564,3 +564,57 @@ textarea { min-height: 100px; resize: vertical; }
     .lbPrev { left: 10px; }
     .lbNext { right: 10px; }
 }
+
+/* --- Notas Container Fixes --- */
+.notasContainer {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+.notasSidebar {
+    background: rgba(3, 3, 3, 0.5);
+    border: 1px solid var(--border);
+    padding: 16px;
+    height: 600px;
+    overflow-y: auto;
+}
+.notasList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.notaItem {
+    padding: 12px;
+    border: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: var(--font-mono);
+}
+.notaItem:hover, .notaItem.active {
+    border-color: #fff;
+    background: rgba(255,255,255,0.05);
+}
+.notaItem h4 {
+    margin: 0 0 6px 0;
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.notaItem span {
+    font-size: 10px;
+    color: var(--text-muted);
+}
+.notasEditor {
+    padding: 0;
+    border: 1px solid var(--border);
+    background: rgba(3, 3, 3, 0.85);
+}
+@media(max-width: 980px) {
+    .notasContainer { grid-template-columns: 1fr; }
+    .notasSidebar { height: 250px; }
+}

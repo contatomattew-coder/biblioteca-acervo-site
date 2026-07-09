@@ -66,17 +66,30 @@ usuario,https://www.instagram.com/usuario/,@usuario,Instagram,conhecido,manual;a
 <section class="section" id="notas">
     <div class="sectionHead">
         <div>
-            <h2>Terminal de Relatórios</h2>
-            <div class="mini">Bloco de notas integrado com salvamento direto no Firebase.</div>
+            <h2>Gerenciador de Relatórios</h2>
+            <div class="mini">Histórico de anotações e relatórios salvos na nuvem.</div>
         </div>
-        <span class="chip cyan">Cloud Sync</span>
+        <div class="actions">
+            <span class="chip cyan">Cloud Sync</span>
+            <button class="btn" id="btnNovoRelatorio" style="font-family: var(--font-mono);">[ + NOVO RELATÓRIO ]</button>
+        </div>
     </div>
-    <div class="panel" style="padding: 24px; border-color: var(--text-primary);">
-        <textarea id="notaTexto" rows="18" placeholder="> INICIE A DIGITAÇÃO DO RELATÓRIO AQUI..." style="width: 100%; font-family: var(--font-mono); background: var(--bg-app); color: var(--text-primary); border: 1px solid var(--border); padding: 16px; resize: vertical; outline: none; margin-bottom: 16px;"></textarea>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span class="mini" id="notaStatus" style="font-family: var(--font-mono); color: #4caf50; display:none;">> [ OK ] DADOS SINCRONIZADOS COM A NUVEM.</span>
-            <button class="btn" id="btnSalvarNota" style="font-family: var(--font-mono);">[ EXECUTAR SALVAMENTO ]</button>
-        </div>
+    <div class="notasContainer">
+        <aside class="notasSidebar">
+            <div class="mini" style="margin-bottom:12px;color:var(--text-muted)">RELATÓRIOS SALVOS</div>
+            <div class="notasList" id="notasList">
+                <div class="empty" style="padding: 20px 0;">Nenhum relatório encontrado.</div>
+            </div>
+        </aside>
+        <main class="notasEditor panel">
+            <input type="hidden" id="notaId" value="">
+            <input id="notaTitulo" type="text" placeholder="> TÍTULO DO RELATÓRIO..." style="width: 100%; font-family: var(--font-mono); font-size: 16px; font-weight: bold; background: transparent; color: #fff; border: none; border-bottom: 1px dashed var(--border); padding: 12px 16px; outline: none; margin-bottom: 16px;" autocomplete="off">
+            <textarea id="notaTexto" rows="22" placeholder="> INICIE A DIGITAÇÃO AQUI..." style="width: 100%; font-family: var(--font-mono); background: transparent; color: var(--text-primary); border: none; padding: 16px; resize: vertical; outline: none; margin-bottom: 16px; line-height: 1.6;"></textarea>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--border); padding-top: 16px;">
+                <span class="mini" id="notaStatus" style="font-family: var(--font-mono); color: #4caf50; display:none;">> [ OK ] DADOS SINCRONIZADOS COM A NUVEM.</span>
+                <button class="btn" id="btnSalvarNota" style="font-family: var(--font-mono);">[ EXECUTAR SALVAMENTO ]</button>
+            </div>
+        </main>
     </div>
 </section>
 </main>
@@ -113,7 +126,7 @@ function drawAgenda(){if(!E.agendaList)return;const list=agendaList();E.agendaLi
 function renderNow(){const x=all.find(isAgora)||{};if(E.nowAddress)E.nowAddress.value=x.address||x.locationGeneral||'';if(E.nowLat)E.nowLat.value=x.lat||'';if(E.nowLng)E.nowLng.value=x.lng||'';if(E.nowNotes)E.nowNotes.value=x.description||'';if(E.nowOpenMaps){const url=mapsUrl(x);E.nowOpenMaps.href=url||'#';E.nowOpenMaps.classList.toggle('disabled',!url)}if(E.nowMap)E.nowMap.innerHTML=mapPanel(x)}
 function acervoFilteredList(){let arr=cleanAcervoList(all.filter(isAcervo));const q=norm(E.acervoSearchInput?.value||''),kind=E.acervoMediaFilter?.value||'';if(q)arr=arr.filter(x=>norm(JSON.stringify(x)).includes(q));if(kind)arr=arr.filter(x=>mediaKind(x)===kind);return arr}
 function filteredBase(){let arr=[...all];const q=norm(E.searchInput?.value||''),t=E.typeFilter?.value||'',st=E.statusFilter?.value||'',p=E.priorityFilter?.value||'';if(q)arr=arr.filter(x=>norm(JSON.stringify(x)).includes(q));if(t)arr=arr.filter(x=>x.type===t);if(st)arr=arr.filter(x=>x.status===st);if(p)arr=arr.filter(x=>norm(x.priority)===norm(p));return arr.sort((a,b)=>String(b.date||b.importedAt||'').localeCompare(String(a.date||a.importedAt||'')))}
-function render(){E.mTotal.textContent=all.length;E.mAcervo.textContent=cleanAcervoList(all.filter(isAcervo)).length;E.mBiblioteca.textContent=all.filter(isBiblioteca).length;E.mConexoes.textContent=all.filter(isConexao).length;E.mEventos.textContent=all.filter(isEvento).length;E.mRevisados.textContent=all.filter(x=>x.status==='revisado').length;drawCompactFollowers();drawGrid(E.gridAcervo,acervoFilteredList());drawGrid(E.gridBiblioteca,all.filter(isBiblioteca));drawGrid(E.gridConexoes,all.filter(isConexao));drawGrid(E.gridEventos,cleanEventList(all.filter(isEvento)));drawAgenda();renderNow();const arr=filteredBase();E.visibleCount.textContent=arr.length;E.tableBody.innerHTML=arr.map(row).join('')||'<tr><td colspan="7" class="empty">Nenhum registro.</td></tr>';bindActions()}
+function render(){E.mTotal.textContent=all.length;E.mAcervo.textContent=cleanAcervoList(all.filter(isAcervo)).length;E.mBiblioteca.textContent=all.filter(isBiblioteca).length;E.mConexoes.textContent=all.filter(isConexao).length;E.mEventos.textContent=all.filter(isEvento).length;E.mRevisados.textContent=all.filter(x=>x.status==='revisado').length;drawCompactFollowers();drawGrid(E.gridAcervo,acervoFilteredList());drawGrid(E.gridBiblioteca,all.filter(isBiblioteca));drawGrid(E.gridConexoes,all.filter(isConexao));drawGrid(E.gridEventos,cleanEventList(all.filter(isEvento)));drawAgenda();renderNow();const arr=filteredBase();E.visibleCount.textContent=arr.length;E.tableBody.innerHTML=arr.map(row).join('')||'<tr><td colspan="7" class="empty">Nenhum registro.</td></tr>';if(typeof renderNotas==='function') renderNotas(); bindActions()}
 function icon(x){if(isBiblioteca(x))return '▤';if(isConexao(x))return '@';if(isEvento(x))return '◴';return '▧'}
 function profileUrl(x){if(x.url)return x.url;if(x.username){const u=String(x.username).replace(/^@/,'').trim();if(!u)return '';const p=norm(x.platform||'instagram');if(p.includes('instagram'))return 'https://www.instagram.com/'+encodeURIComponent(u)+'/';return ''}return ''}
 function followerName(x){const raw=x.username||x.title||'seguidor';return String(raw).startsWith('@')?String(raw):'@'+String(raw).replace(/^@/,'')}
@@ -235,24 +248,84 @@ if (notaTexto && btnSalvarNota) {
         }
     });
 
-    btnSalvarNota.addEventListener('click', async () => {
+    // --- NOTAS LOGIC ---
+    function renderNotas() {
+        const list = document.getElementById('notasList');
+        if(!list) return;
+        const notas = all.filter(x => x.type === 'nota').sort((a,b) => new Date(b.date||b.updatedAt||0) - new Date(a.date||a.updatedAt||0));
+        
+        if (notas.length === 0) {
+            list.innerHTML = '<div class="empty" style="padding: 20px 0;">Nenhum relatório encontrado.</div>';
+            return;
+        }
+
+        list.innerHTML = notas.map(n => {
+            const dateStr = n.date || (n.updatedAt?.seconds ? new Date(n.updatedAt.seconds*1000).toISOString().split('T')[0] : '');
+            return '<div class="notaItem" onclick="loadNota(\'' + n.id + '\')"><h4>' + esc(n.title || n.titulo || 'Relatório sem título') + '</h4><span>' + esc(dateStr) + '</span></div>';
+        }).join('');
+    }
+    
+    window.renderNotas = renderNotas;
+
+    window.loadNota = (id) => {
+        const n = all.find(x => x.id === id);
+        if(!n) return;
+        document.getElementById('notaId').value = n.id;
+        document.getElementById('notaTitulo').value = n.title || n.titulo || '';
+        document.getElementById('notaTexto').value = n.texto || n.context || n.description || '';
+        
+        document.querySelectorAll('.notaItem').forEach(el => el.classList.remove('active'));
+    };
+
+    document.getElementById('btnNovoRelatorio')?.addEventListener('click', () => {
+        document.getElementById('notaId').value = '';
+        document.getElementById('notaTitulo').value = '';
+        document.getElementById('notaTexto').value = '';
+    });
+
+    document.getElementById('btnSalvarNota')?.addEventListener('click', async () => {
         try {
-            btnSalvarNota.innerText = '[ ENVIANDO... ]';
-            await setDoc(doc(db, "entries", "rascunho_relatorio"), {
-                texto: notaTexto.value,
-                updatedAt: serverTimestamp()
-            }, { merge: true });
+            const titulo = document.getElementById('notaTitulo').value.trim();
+            const texto = document.getElementById('notaTexto').value.trim();
+            if(!titulo) {
+                alert('Insira um título para o relatório.');
+                return;
+            }
             
-            btnSalvarNota.innerText = '[ EXECUTAR SALVAMENTO ]';
-            notaStatus.innerText = '> [ OK ] RELATORIO SALVO NO FIREBASE.';
-            notaStatus.style.display = 'block';
-            notaStatus.style.color = '#4caf50';
-            setTimeout(() => { notaStatus.style.display = 'none'; }, 4000);
+            const btn = document.getElementById('btnSalvarNota');
+            const status = document.getElementById('notaStatus');
+            btn.innerText = '[ ENVIANDO... ]';
+            
+            const id = document.getElementById('notaId').value;
+            const data = {
+                type: 'nota',
+                title: titulo,
+                texto: texto,
+                date: new Date().toISOString().split('T')[0],
+                updatedAt: serverTimestamp()
+            };
+
+            if (id) {
+                await setDoc(doc(db, "entries", id), data, { merge: true });
+            } else {
+                const newRef = doc(collection(db, "entries"));
+                await setDoc(newRef, data);
+                document.getElementById('notaId').value = newRef.id;
+            }
+            
+            btn.innerText = '[ EXECUTAR SALVAMENTO ]';
+            status.innerText = '> [ OK ] RELATORIO SALVO NO FIREBASE.';
+            status.style.display = 'block';
+            status.style.color = '#4caf50';
+            setTimeout(() => { status.style.display = 'none'; }, 4000);
+            
         } catch (e) {
             console.error(e);
-            notaStatus.innerText = '> [ ERRO ] FALHA NA CONEXAO.';
-            notaStatus.style.display = 'block';
-            notaStatus.style.color = '#ff4444';
+            const status = document.getElementById('notaStatus');
+            status.innerText = '> [ ERRO ] FALHA NA CONEXAO.';
+            status.style.display = 'block';
+            status.style.color = '#ff5252';
+            setTimeout(() => { status.style.display = 'none'; }, 4000);
         }
     });
 }
